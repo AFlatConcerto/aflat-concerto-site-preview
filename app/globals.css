@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020611;
+  --foreground: #e5f0ff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Aptos", "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  --font-serif: "Palatino Linotype", "Book Antiqua", "STSong", serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Aptos", "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  scroll-behavior: smooth;
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(140, 122, 255, 0.08), transparent 16%),
+    radial-gradient(circle at 82% 24%, rgba(108, 230, 255, 0.06), transparent 14%);
+  background-attachment: fixed;
+}
+
+.page-aura {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(103, 140, 255, 0.45), transparent 65%),
+    radial-gradient(800px 440px at 78% 18%, rgba(110, 236, 255, 0.16), transparent 70%),
+    radial-gradient(500px 280px at 18% 28%, rgba(130, 106, 255, 0.22), transparent 65%),
+    linear-gradient(180deg, #010409 0%, #020611 50%, #040918 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black 52%, transparent 95%);
+  opacity: 0.35;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Palatino Linotype", "Book Antiqua", "STSong", serif;
+  letter-spacing: 0.02em;
+}
+
+::selection {
+  background: rgba(136, 175, 255, 0.35);
+  color: #fff;
+}
