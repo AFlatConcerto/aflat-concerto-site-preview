@@ -24,6 +24,7 @@ type SanityArtwork = {
   clientEn?: string;
   clientZh?: string;
   tags?: string[];
+  tagsZh?: string[];
   thumbnail?: SanityImage;
   fullImage?: SanityImage;
 };
@@ -100,24 +101,35 @@ const siteContentQuery = `
     clientEn,
     clientZh,
     tags,
+    tagsZh,
     "thumbnail": thumbnail.asset->{url, "width": metadata.dimensions.width, "height": metadata.dimensions.height},
     "fullImage": fullImage.asset->{url, "width": metadata.dimensions.width, "height": metadata.dimensions.height}
   }
 }
 `;
 
-function pick(language: Language, en?: string, zh?: string) {
+function pickWithFallback(
+  language: Language,
+  en: string | undefined,
+  zh: string | undefined,
+  fallback: string | undefined,
+) {
   if (language === "zh") {
-    return zh || en || "";
+    return zh || fallback || en || "";
   }
-  return en || zh || "";
+  return en || fallback || zh || "";
 }
 
-function pickList(language: Language, en?: string[], zh?: string[]) {
+function pickListWithFallback(
+  language: Language,
+  en: string[] | undefined,
+  zh: string[] | undefined,
+  fallback: string[] | undefined,
+) {
   if (language === "zh") {
-    return zh?.length ? zh : en;
+    return zh?.length ? zh : fallback?.length ? fallback : en;
   }
-  return en?.length ? en : zh;
+  return en?.length ? en : fallback?.length ? fallback : zh;
 }
 
 function imageUrl(image: SanityImage | undefined, fallback: string) {
@@ -135,19 +147,25 @@ function mapArtwork(
   return {
     id: item._id,
     featured: Boolean(item.featured),
-    title: pick(language, item.titleEn, item.titleZh) || fallback?.title || "Untitled Work",
+    title:
+      pickWithFallback(language, item.titleEn, item.titleZh, fallback?.title) ||
+      "Untitled Work",
     thumbnail: imageUrl(thumbnail, fallback?.thumbnail || ""),
     fullImage: imageUrl(fullImage, fallback?.fullImage || fallback?.thumbnail || ""),
     width: thumbnail?.width || fullImage?.width || fallback?.width || 1600,
     height: thumbnail?.height || fullImage?.height || fallback?.height || 1000,
     creator: item.creator || fallback?.creator,
     createdAt: item.createdAt || fallback?.createdAt,
-    role: pick(language, item.roleEn, item.roleZh) || fallback?.role,
-    client: pick(language, item.clientEn, item.clientZh) || fallback?.client,
-    description:
-      pick(language, item.descriptionEn, item.descriptionZh) || fallback?.description,
+    role: pickWithFallback(language, item.roleEn, item.roleZh, fallback?.role),
+    client: pickWithFallback(language, item.clientEn, item.clientZh, fallback?.client),
+    description: pickWithFallback(
+      language,
+      item.descriptionEn,
+      item.descriptionZh,
+      fallback?.description,
+    ),
     category: item.category || fallback?.category || "Commission",
-    tags: item.tags?.length ? item.tags : fallback?.tags,
+    tags: pickListWithFallback(language, item.tags, item.tagsZh, fallback?.tags),
   };
 }
 
@@ -156,39 +174,71 @@ function mapContent(
   language: Language,
   fallback: SiteContent,
 ): SiteContent {
-  const profileTags = pickList(
+  const profileTags = pickListWithFallback(
     language,
     site.profileTagsEn,
     site.profileTagsZh,
+    fallback.siteInfo.profileTags,
   );
 
   return {
     siteKey: site.siteKey || fallback.siteKey,
     siteInfo: {
-      name: pick(language, site.nameEn, site.nameZh) || fallback.siteInfo.name,
+      name:
+        pickWithFallback(
+          language,
+          site.nameEn,
+          site.nameZh,
+          fallback.siteInfo.name,
+        ) || fallback.siteInfo.name,
       subtitle:
-        pick(language, site.subtitleEn, site.subtitleZh) || fallback.siteInfo.subtitle,
+        pickWithFallback(
+          language,
+          site.subtitleEn,
+          site.subtitleZh,
+          fallback.siteInfo.subtitle,
+        ) || fallback.siteInfo.subtitle,
       description:
-        pick(language, site.descriptionEn, site.descriptionZh) ||
-        fallback.siteInfo.description,
+        pickWithFallback(
+          language,
+          site.descriptionEn,
+          site.descriptionZh,
+          fallback.siteInfo.description,
+        ) || fallback.siteInfo.description,
       avatar: imageUrl(site.avatar, fallback.siteInfo.avatar),
       heroImage: imageUrl(site.heroImage, fallback.siteInfo.heroImage),
       backgroundImage: imageUrl(site.backgroundImage, fallback.siteInfo.backgroundImage),
-      role: pick(language, site.roleEn, site.roleZh) || fallback.siteInfo.role,
-      aura: pick(language, site.auraEn, site.auraZh) || fallback.siteInfo.aura,
-      style: pick(language, site.styleEn, site.styleZh) || fallback.siteInfo.style,
+      role:
+        pickWithFallback(language, site.roleEn, site.roleZh, fallback.siteInfo.role) ||
+        fallback.siteInfo.role,
+      aura:
+        pickWithFallback(language, site.auraEn, site.auraZh, fallback.siteInfo.aura) ||
+        fallback.siteInfo.aura,
+      style:
+        pickWithFallback(
+          language,
+          site.styleEn,
+          site.styleZh,
+          fallback.siteInfo.style,
+        ) || fallback.siteInfo.style,
       profileTags: profileTags ?? fallback.siteInfo.profileTags,
     },
     aboutBlocks: Array.isArray(site.aboutBlocks)
       ? site.aboutBlocks.map((block, index) => ({
           title:
-            pick(language, block.titleEn, block.titleZh) ||
-            fallback.aboutBlocks[index]?.title ||
-            "Info",
+            pickWithFallback(
+              language,
+              block.titleEn,
+              block.titleZh,
+              fallback.aboutBlocks[index]?.title,
+            ) || "Info",
           body:
-            pick(language, block.bodyEn, block.bodyZh) ||
-            fallback.aboutBlocks[index]?.body ||
-            "",
+            pickWithFallback(
+              language,
+              block.bodyEn,
+              block.bodyZh,
+              fallback.aboutBlocks[index]?.body,
+            ) || "",
         }))
       : fallback.aboutBlocks,
     links: Array.isArray(site.links)
@@ -197,9 +247,12 @@ function mapContent(
           icon: link.icon || fallback.links[index]?.icon || "L",
           url: link.url || fallback.links[index]?.url || "#",
           note:
-            pick(language, link.noteEn, link.noteZh) ||
-            fallback.links[index]?.note ||
-            "Visit",
+            pickWithFallback(
+              language,
+              link.noteEn,
+              link.noteZh,
+              fallback.links[index]?.note,
+            ) || "Visit",
         }))
       : fallback.links,
     gallery: Array.isArray(site.artworks)

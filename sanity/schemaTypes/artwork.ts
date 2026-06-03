@@ -88,7 +88,14 @@ export const artwork = defineType({
     defineField({ name: "createdAt", title: "完成日期", type: "date" }),
     defineField({
       name: "tags",
-      title: "标签",
+      title: "标签（英文 / 默认）",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+      description: "例如：Jellyfish、Neon、Poster。",
+    }),
+    defineField({
+      name: "tagsZh",
+      title: "标签（中文）",
       type: "array",
       of: [defineArrayMember({ type: "string" })],
       description: "例如：水母、霓虹、封面。",
