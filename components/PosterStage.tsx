@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Fingerprint, Orbit, Palette, type LucideIcon } from "lucide-react";
-import { siteInfo } from "@/data/site";
+import { assetPath, siteInfo } from "@/data/site";
 
 type Hotspot = {
   id: string;
@@ -15,14 +15,14 @@ type Hotspot = {
 const hotspots: Hotspot[] = [
   {
     id: "links",
-    image: "/assets/hotspots/btn-links.png",
+    image: assetPath("/assets/hotspots/btn-links.png"),
     label: "Links",
     target: "links",
     className: "left-[69.89%] top-[79.96%] h-[12.08%] w-[12.29%]",
   },
   {
     id: "home",
-    image: "/assets/hotspots/btn-home.png",
+    image: assetPath("/assets/hotspots/btn-home.png"),
     label: "Home",
     target: "home",
     className: "left-[83.10%] top-[79.96%] h-[12.08%] w-[12.45%]",

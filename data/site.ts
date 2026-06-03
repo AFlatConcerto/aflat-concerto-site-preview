@@ -31,14 +31,19 @@ export type GalleryItem = {
   tags?: string[];
 };
 
+export function assetPath(path: string) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+  return `${basePath}${path}`;
+}
+
 export const siteInfo: SiteInfo = {
   name: "AFlatConcerto",
   subtitle: "A-flat Major Concerto",
   description:
     "A VTuber / OC portfolio shaped by deep-sea glow, quiet blue light, and illustration-first storytelling.",
-  avatar: "/assets/avatar.png",
-  heroImage: "/assets/hero-character.png",
-  backgroundImage: "/assets/poster-main.webp",
+  avatar: assetPath("/assets/avatar.png"),
+  heroImage: assetPath("/assets/hero-character.png"),
+  backgroundImage: assetPath("/assets/poster-main.webp"),
 };
 
 export const aboutBlocks = [
@@ -74,8 +79,8 @@ export const gallery: GalleryItem[] = [
     id: "g-001",
     featured: true,
     title: "Moon Tank",
-    thumbnail: "/assets/gallery/work-1.png",
-    fullImage: "/assets/gallery/full/work-1.webp",
+    thumbnail: assetPath("/assets/gallery/work-1.png"),
+    fullImage: assetPath("/assets/gallery/full/work-1.webp"),
     width: 2800,
     height: 2612,
     creator: "AFlatConcerto",
@@ -90,8 +95,8 @@ export const gallery: GalleryItem[] = [
   {
     id: "g-002",
     title: "Bubble Choir",
-    thumbnail: "/assets/gallery/work-2.png",
-    fullImage: "/assets/gallery/full/work-2.webp",
+    thumbnail: assetPath("/assets/gallery/work-2.png"),
+    fullImage: assetPath("/assets/gallery/full/work-2.webp"),
     width: 2702,
     height: 2800,
     creator: "AFlatConcerto",
@@ -106,8 +111,8 @@ export const gallery: GalleryItem[] = [
   {
     id: "g-003",
     title: "Sea Card Frame",
-    thumbnail: "/assets/gallery/work-3.png",
-    fullImage: "/assets/gallery/full/work-3.webp",
+    thumbnail: assetPath("/assets/gallery/work-3.png"),
+    fullImage: assetPath("/assets/gallery/full/work-3.webp"),
     width: 2477,
     height: 2800,
     creator: "AFlatConcerto",
@@ -122,8 +127,8 @@ export const gallery: GalleryItem[] = [
   {
     id: "g-004",
     title: "Abyssal Waltz",
-    thumbnail: "/assets/gallery/work-4.png",
-    fullImage: "/assets/gallery/full/work-4.webp",
+    thumbnail: assetPath("/assets/gallery/work-4.png"),
+    fullImage: assetPath("/assets/gallery/full/work-4.webp"),
     width: 1620,
     height: 2100,
     creator: "AFlatConcerto",
