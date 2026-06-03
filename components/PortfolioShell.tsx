@@ -12,9 +12,25 @@ type PortfolioShellProps = {
 };
 
 export function PortfolioShell({ contentByLanguage }: PortfolioShellProps) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>(() => {
+    if (typeof window === "undefined") {
+      return "en";
+    }
+
+    const requested = new URLSearchParams(window.location.search).get("lang");
+    return requested === "zh" ? "zh" : "en";
+  });
   const content = contentByLanguage[language];
   const otherLanguage = language === "en" ? "zh" : "en";
+
+  function switchLanguage() {
+    const nextLanguage = otherLanguage;
+    setLanguage(nextLanguage);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("lang", nextLanguage);
+    window.history.replaceState(null, "", url);
+  }
 
   return (
     <div id="top" className="relative min-h-screen overflow-x-hidden">
@@ -22,7 +38,7 @@ export function PortfolioShell({ contentByLanguage }: PortfolioShellProps) {
       <div className="fixed top-4 left-4 z-40">
         <button
           type="button"
-          onClick={() => setLanguage(otherLanguage)}
+          onClick={switchLanguage}
           className="rounded-full border border-blue-100/25 bg-slate-950/70 px-4 py-2 text-sm font-semibold text-blue-50 shadow-[0_14px_34px_rgba(0,0,0,0.32)] backdrop-blur-md transition hover:border-cyan-100/40 hover:bg-blue-900/45"
           aria-label="Switch language"
         >

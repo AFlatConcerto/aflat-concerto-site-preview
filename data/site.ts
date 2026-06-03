@@ -43,6 +43,14 @@ export type GalleryItem = {
 };
 
 export type PortfolioLabels = {
+  allCategory: string;
+  artworkFallback: string;
+  untitledWork: string;
+  personalWork: string;
+  tbd: string;
+  categoryLabels: Record<string, string>;
+  categoryShortLabels: Record<string, string>;
+  categoryNotes: Record<string, string>;
   aboutEyebrow: string;
   aboutTitle: string;
   role: string;
@@ -203,6 +211,47 @@ const englishContent: SiteContent = {
     },
   ],
   labels: {
+    allCategory: "All",
+    artworkFallback: "Artwork",
+    untitledWork: "Untitled Work",
+    personalWork: "Personal Work",
+    tbd: "TBD",
+    categoryLabels: {
+      All: "All",
+      "Key Visual": "Key Visual",
+      Commission: "Commission",
+      "UI Detail": "UI Detail",
+      "Character Art": "Character Art",
+      "Reference Sheet": "Reference Sheet",
+      "Cover Art": "Cover Art",
+      "Stream Asset": "Stream Asset",
+      Sketch: "Sketch",
+      "Personal Work": "Personal Work",
+    },
+    categoryShortLabels: {
+      All: "All",
+      "Key Visual": "Key Visual",
+      Commission: "Commission",
+      "UI Detail": "UI",
+      "Character Art": "Character",
+      "Reference Sheet": "Reference",
+      "Cover Art": "Cover",
+      "Stream Asset": "Stream",
+      Sketch: "Sketch",
+      "Personal Work": "Personal",
+    },
+    categoryNotes: {
+      All: "Browse every artwork in the archive.",
+      "Key Visual": "Hero images, profile visuals, and main promotional pieces.",
+      Commission: "Finished client-facing commission work.",
+      "UI Detail": "Website panels, card frames, and interface-focused details.",
+      "Character Art": "Character portraits, standing art, and expression work.",
+      "Reference Sheet": "Reference sheets, design notes, and model-ready details.",
+      "Cover Art": "Cover-ready illustrations and social header artwork.",
+      "Stream Asset": "Streaming screens, overlays, badges, and scene assets.",
+      Sketch: "Sketches, rough concepts, and work-in-progress studies.",
+      "Personal Work": "Personal illustrations and non-commission pieces.",
+    },
     aboutEyebrow: "Character File",
     aboutTitle: "About Me",
     role: "Role",
@@ -246,7 +295,7 @@ const chineseContent: SiteContent = {
   siteInfo: {
     ...englishContent.siteInfo,
     description: "以深海微光、冷蓝色调和插画叙事为核心的 VTuber / OC 个人主页。",
-    role: "VTuber / OC",
+    role: "虚拟主播 / OC",
     aura: "深海",
     style: "霓虹梦境",
     profileTags: ["水母", "海光"],
@@ -262,7 +311,7 @@ const chineseContent: SiteContent = {
     },
     {
       title: "兴趣",
-      body: "VTuber / OC / 动画 / 小说 / DIY 小物",
+      body: "虚拟主播 / OC / 动画 / 小说 / DIY 小物",
     },
     {
       title: "直播内容",
@@ -282,14 +331,85 @@ const chineseContent: SiteContent = {
   }),
   gallery: englishContent.gallery.map((item) => ({
     ...item,
-    client:
-      item.client === "Personal Work"
-        ? "个人作品"
-        : item.client === "Private Client"
-          ? "私人委托"
-          : item.client,
-  })),
+  })).map((item) => {
+    const translations: Record<string, Partial<GalleryItem>> = {
+      "g-001": {
+        title: "月光水箱",
+        role: "插画 / 界面细节",
+        client: "个人作品",
+        description: "以月光、水下空间感和缓慢漂浮的视觉节奏为核心的主视觉作品。",
+        tags: ["水母", "霓虹", "海报"],
+      },
+      "g-002": {
+        title: "泡泡合唱",
+        role: "委托插画",
+        client: "私人委托",
+        description: "以发光泡泡和颗粒质感组成的封面感画面，适合展示和归档。",
+        tags: ["泡泡", "发光", "封面"],
+      },
+      "g-003": {
+        title: "海卡框架",
+        role: "界面细节 / 卡片设计",
+        client: "个人作品",
+        description: "围绕玻璃卡片层次、深色质感和页面细节完成的 UI 视觉研究。",
+        tags: ["玻璃拟态", "边框", "深色"],
+      },
+      "g-004": {
+        title: "深渊圆舞曲",
+        role: "角色插画",
+        client: "私人委托",
+        description: "以冷色光、漂浮泡泡和角色特写为重点的委托插画展示。",
+        tags: ["角色", "水感", "高光"],
+      },
+    };
+
+    return {
+      ...item,
+      ...translations[item.id],
+    };
+  }),
   labels: {
+    allCategory: "全部",
+    artworkFallback: "作品",
+    untitledWork: "未命名作品",
+    personalWork: "个人作品",
+    tbd: "待定",
+    categoryLabels: {
+      All: "全部",
+      "Key Visual": "主视觉",
+      Commission: "委托",
+      "UI Detail": "界面细节",
+      "Character Art": "角色图",
+      "Reference Sheet": "设定参考",
+      "Cover Art": "封面图",
+      "Stream Asset": "直播素材",
+      Sketch: "草稿",
+      "Personal Work": "个人作品",
+    },
+    categoryShortLabels: {
+      All: "全部",
+      "Key Visual": "主视觉",
+      Commission: "委托",
+      "UI Detail": "UI",
+      "Character Art": "角色",
+      "Reference Sheet": "参考",
+      "Cover Art": "封面",
+      "Stream Asset": "直播",
+      Sketch: "草稿",
+      "Personal Work": "个人",
+    },
+    categoryNotes: {
+      All: "浏览作品档案中的全部作品。",
+      "Key Visual": "主页视觉、角色主图和宣传向主视觉作品。",
+      Commission: "已完成的委托作品展示。",
+      "UI Detail": "网站面板、卡片框架和界面细节。",
+      "Character Art": "角色立绘、头像和表情相关作品。",
+      "Reference Sheet": "设定表、设计备注和模型参考细节。",
+      "Cover Art": "适合作为封面、头图或社交平台展示的作品。",
+      "Stream Asset": "直播画面、覆盖层、徽章和场景素材。",
+      Sketch: "草稿、概念和过程稿。",
+      "Personal Work": "非委托的个人练习或个人作品。",
+    },
     aboutEyebrow: "角色档案",
     aboutTitle: "关于我",
     role: "定位",
@@ -300,7 +420,7 @@ const chineseContent: SiteContent = {
     linksDescription: "用于展示更新、归档和其他平台入口。",
     home: "首页",
     galleryEyebrow: "精选作品",
-    galleryTitle: "Commission",
+    galleryTitle: "委托作品",
     galleryDescription: "用于整理委托、主视觉、角色作品和页面细节的作品档案。",
     ongoingArchive: "持续更新",
     featured: "精选",
@@ -316,11 +436,11 @@ const chineseContent: SiteContent = {
     creator: "作者",
     date: "日期",
     notes: "说明",
-    navProfile: "Personal File",
+    navProfile: "个人档案",
     navProfileEyebrow: "OC 档案",
-    navLinks: "Links",
+    navLinks: "链接",
     navLinksEyebrow: "账号",
-    navGallery: "Commission",
+    navGallery: "委托作品",
     navGalleryEyebrow: "作品",
     backToTop: "返回顶部",
     languageEn: "EN",

@@ -7,50 +7,11 @@ import type { GalleryItem, PortfolioLabels } from "@/data/site";
 import { GalleryModal } from "./GalleryModal";
 import { BackToTop } from "./BackToTop";
 
-const categoryLabels: Record<string, string> = {
-  All: "All",
-  "Key Visual": "Key Visual",
-  Commission: "Commission",
-  "UI Detail": "UI Detail",
-  "Character Art": "Character Art",
-  "Reference Sheet": "Reference Sheet",
-  "Cover Art": "Cover Art",
-  "Stream Asset": "Stream Asset",
-  Sketch: "Sketch",
-  "Personal Work": "Personal Work",
-};
-
-const categoryShortLabels: Record<string, string> = {
-  All: "All",
-  "Key Visual": "Key Visual",
-  Commission: "Commission",
-  "UI Detail": "UI",
-  "Character Art": "Character",
-  "Reference Sheet": "Reference",
-  "Cover Art": "Cover",
-  "Stream Asset": "Stream",
-  Sketch: "Sketch",
-  "Personal Work": "Personal",
-};
-
-const categoryNotes: Record<string, string> = {
-  All: "Browse every artwork in the archive.",
-  "Key Visual": "Hero images, profile visuals, and main promotional pieces.",
-  Commission: "Finished client-facing commission work.",
-  "UI Detail": "Website panels, card frames, and interface-focused details.",
-  "Character Art": "Character portraits, standing art, and expression work.",
-  "Reference Sheet": "Reference sheets, design notes, and model-ready details.",
-  "Cover Art": "Cover-ready illustrations and social header artwork.",
-  "Stream Asset": "Streaming screens, overlays, badges, and scene assets.",
-  Sketch: "Sketches, rough concepts, and work-in-progress studies.",
-  "Personal Work": "Personal illustrations and non-commission pieces.",
-};
-
-function getCategoryLabel(category?: string) {
+function getCategoryLabel(labels: PortfolioLabels, category?: string) {
   if (!category) {
     return "";
   }
-  return categoryLabels[category] ?? category;
+  return labels.categoryLabels[category] ?? category;
 }
 
 function getCategoryCount(category: string, gallery: GalleryItem[]) {
@@ -60,16 +21,16 @@ function getCategoryCount(category: string, gallery: GalleryItem[]) {
   return gallery.filter((item) => item.category === category).length;
 }
 
-function getYear(item: GalleryItem) {
-  return item.createdAt?.slice(0, 4) ?? "TBD";
+function getYear(item: GalleryItem, labels: PortfolioLabels) {
+  return item.createdAt?.slice(0, 4) ?? labels.tbd;
 }
 
-function getClient(item: GalleryItem) {
-  return item.client ?? item.creator ?? "Personal Work";
+function getClient(item: GalleryItem, labels: PortfolioLabels) {
+  return item.client ?? item.creator ?? labels.personalWork;
 }
 
-function getRole(item: GalleryItem) {
-  return item.role ?? getCategoryLabel(item.category);
+function getRole(item: GalleryItem, labels: PortfolioLabels) {
+  return item.role ?? getCategoryLabel(labels, item.category);
 }
 
 function ArtworkImage({
@@ -206,7 +167,7 @@ export function GallerySection({
                 <div className="space-y-3">
                   {featuredItem.category ? (
                     <span className="inline-flex rounded-full border border-white/12 bg-white/7 px-3 py-1 text-[11px] tracking-[0.16em] text-blue-100/80">
-                      {getCategoryLabel(featuredItem.category)}
+                      {getCategoryLabel(labels, featuredItem.category)}
                     </span>
                   ) : null}
                   <h4 className="text-2xl font-semibold text-blue-50 md:text-3xl">
@@ -220,10 +181,10 @@ export function GallerySection({
                 </div>
                 <dl className="hidden grid-cols-2 gap-2 text-sm md:grid">
                   {[
-                    [labels.type, getCategoryLabel(featuredItem.category)],
-                    [labels.year, getYear(featuredItem)],
-                    [labels.role, getRole(featuredItem)],
-                    [labels.client, getClient(featuredItem)],
+                    [labels.type, getCategoryLabel(labels, featuredItem.category)],
+                    [labels.year, getYear(featuredItem, labels)],
+                    [labels.role, getRole(featuredItem, labels)],
+                    [labels.client, getClient(featuredItem, labels)],
                   ].map(([label, value]) => (
                     <div
                       key={label}
@@ -262,7 +223,7 @@ export function GallerySection({
                   key={category}
                   type="button"
                   onClick={() => setActiveCategory(category)}
-                  title={categoryNotes[category] ?? category}
+                  title={labels.categoryNotes[category] ?? category}
                   className={`min-w-0 flex-1 rounded-[14px] border px-2.5 py-2 text-xs transition sm:text-sm md:flex-none md:px-3.5 ${
                     activeCategory === category
                       ? "border-blue-200/45 bg-[linear-gradient(180deg,rgba(117,164,255,0.38),rgba(72,108,179,0.22))] text-white shadow-[0_0_18px_rgba(103,149,255,0.16)]"
@@ -270,9 +231,9 @@ export function GallerySection({
                   }`}
                 >
                   <span className="block truncate sm:hidden">
-                    {categoryShortLabels[category] ?? getCategoryLabel(category)}
+                    {labels.categoryShortLabels[category] ?? getCategoryLabel(labels, category)}
                   </span>
-                  <span className="hidden sm:inline">{getCategoryLabel(category)}</span>
+                  <span className="hidden sm:inline">{getCategoryLabel(labels, category)}</span>
                   <span className="ml-1.5 text-xs text-blue-100/58">
                     {getCategoryCount(category, gallery)}
                   </span>
@@ -281,7 +242,7 @@ export function GallerySection({
             </div>
 
             <p className="mt-2 px-2 text-xs leading-5 text-blue-100/54 md:hidden">
-              {categoryNotes[activeCategory] ?? "Tap a category to filter the archive."}
+              {labels.categoryNotes[activeCategory] ?? labels.noWorksDescription}
             </p>
           </div>
 
@@ -309,7 +270,7 @@ export function GallerySection({
                       </p>
                       {item.category ? (
                         <span className="shrink-0 rounded-full border border-white/12 bg-black/25 px-2.5 py-1 text-[11px] tracking-[0.16em] text-blue-100/80">
-                          {getCategoryLabel(item.category)}
+                          {getCategoryLabel(labels, item.category)}
                         </span>
                       ) : null}
                     </div>

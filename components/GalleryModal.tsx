@@ -10,32 +10,20 @@ type GalleryModalProps = {
   onClose: () => void;
 };
 
-const categoryLabels: Record<string, string> = {
-  "Key Visual": "Key Visual",
-  Commission: "Commission",
-  "UI Detail": "UI Detail",
-  "Character Art": "Character Art",
-  "Reference Sheet": "Reference Sheet",
-  "Cover Art": "Cover Art",
-  "Stream Asset": "Stream Asset",
-  Sketch: "Sketch",
-  "Personal Work": "Personal Work",
-};
-
-function getCategoryLabel(category: string) {
-  return categoryLabels[category] ?? category;
+function getCategoryLabel(labels: PortfolioLabels, category: string) {
+  return labels.categoryLabels[category] ?? category;
 }
 
-function getYear(item: GalleryItem) {
-  return item.createdAt?.slice(0, 4) ?? "TBD";
+function getYear(item: GalleryItem, labels: PortfolioLabels) {
+  return item.createdAt?.slice(0, 4) ?? labels.tbd;
 }
 
-function getClient(item: GalleryItem) {
-  return item.client ?? item.creator ?? "Personal Work";
+function getClient(item: GalleryItem, labels: PortfolioLabels) {
+  return item.client ?? item.creator ?? labels.personalWork;
 }
 
-function getRole(item: GalleryItem) {
-  return item.role ?? (item.category ? getCategoryLabel(item.category) : "Artwork");
+function getRole(item: GalleryItem, labels: PortfolioLabels) {
+  return item.role ?? (item.category ? getCategoryLabel(labels, item.category) : labels.artworkFallback);
 }
 
 export function GalleryModal({ item, labels, onClose }: GalleryModalProps) {
@@ -112,12 +100,17 @@ export function GalleryModal({ item, labels, onClose }: GalleryModalProps) {
 
               <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
                 {[
-                  [labels.type, item.category ? getCategoryLabel(item.category) : "Artwork"],
-                  [labels.year, getYear(item)],
-                  [labels.role, getRole(item)],
-                  [labels.client, getClient(item)],
+                  [
+                    labels.type,
+                    item.category
+                      ? getCategoryLabel(labels, item.category)
+                      : labels.artworkFallback,
+                  ],
+                  [labels.year, getYear(item, labels)],
+                  [labels.role, getRole(item, labels)],
+                  [labels.client, getClient(item, labels)],
                   [labels.creator, item.creator ?? "AFlatConcerto"],
-                  [labels.date, item.createdAt ?? "TBD"],
+                  [labels.date, item.createdAt ?? labels.tbd],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-[18px] border border-white/10 bg-black/16 p-3">
                     <dt className="text-[11px] tracking-[0.22em] text-blue-200/55">{label}</dt>
