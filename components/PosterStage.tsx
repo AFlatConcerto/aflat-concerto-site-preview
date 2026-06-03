@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Fingerprint, Orbit, Palette, type LucideIcon } from "lucide-react";
-import { assetPath, siteInfo } from "@/data/site";
+import { assetPath, type PortfolioLabels, type SiteInfo } from "@/data/site";
 
 type Hotspot = {
   id: string;
@@ -38,18 +38,38 @@ function scrollTo(target: Hotspot["target"]) {
   node?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-const navItems: Array<{
+function getNavItems(labels: PortfolioLabels): Array<{
   label: string;
   eyebrow: string;
   target: Hotspot["target"];
   Icon: LucideIcon;
-}> = [
-  { label: "Personal File", eyebrow: "OC profile", target: "about", Icon: Fingerprint },
-  { label: "Links", eyebrow: "Accounts", target: "links", Icon: Orbit },
-  { label: "Commission", eyebrow: "Gallery", target: "gallery", Icon: Palette },
-];
+}> {
+  return [
+    {
+      label: labels.navProfile,
+      eyebrow: labels.navProfileEyebrow,
+      target: "about",
+      Icon: Fingerprint,
+    },
+    { label: labels.navLinks, eyebrow: labels.navLinksEyebrow, target: "links", Icon: Orbit },
+    {
+      label: labels.navGallery,
+      eyebrow: labels.navGalleryEyebrow,
+      target: "gallery",
+      Icon: Palette,
+    },
+  ];
+}
 
-export function PosterStage() {
+export function PosterStage({
+  labels,
+  siteInfo,
+}: {
+  labels: PortfolioLabels;
+  siteInfo: SiteInfo;
+}) {
+  const navItems = getNavItems(labels);
+
   return (
     <section id="home">
       <div

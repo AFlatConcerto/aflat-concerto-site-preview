@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { gallery, type GalleryItem } from "@/data/site";
+import type { GalleryItem, PortfolioLabels } from "@/data/site";
 import { GalleryModal } from "./GalleryModal";
 import { BackToTop } from "./BackToTop";
 
@@ -46,15 +46,6 @@ const categoryNotes: Record<string, string> = {
   "Personal Work": "Personal illustrations and non-commission pieces.",
 };
 
-const allCategories = [
-  "All",
-  ...new Set(
-    gallery
-      .map((item) => item.category)
-      .filter((category): category is string => Boolean(category)),
-  ),
-];
-
 function getCategoryLabel(category?: string) {
   if (!category) {
     return "";
@@ -62,7 +53,7 @@ function getCategoryLabel(category?: string) {
   return categoryLabels[category] ?? category;
 }
 
-function getCategoryCount(category: string) {
+function getCategoryCount(category: string, gallery: GalleryItem[]) {
   if (category === "All") {
     return gallery.length;
   }
@@ -135,15 +126,33 @@ function ArtworkImage({
   );
 }
 
-export function GallerySection() {
+export function GallerySection({
+  gallery,
+  labels,
+}: {
+  gallery: GalleryItem[];
+  labels: PortfolioLabels;
+}) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selected, setSelected] = useState<GalleryItem | null>(null);
+
+  const allCategories = useMemo(
+    () => [
+      "All",
+      ...new Set(
+        gallery
+          .map((item) => item.category)
+          .filter((category): category is string => Boolean(category)),
+      ),
+    ],
+    [gallery],
+  );
 
   const filtered = useMemo(() => {
     return gallery.filter((item) => {
       return activeCategory === "All" || item.category === activeCategory;
     });
-  }, [activeCategory]);
+  }, [activeCategory, gallery]);
 
   const featuredItem =
     filtered.find((item) => item.featured) ??
@@ -165,16 +174,18 @@ export function GallerySection() {
 
         <div className="relative flex items-end justify-between gap-3">
           <div className="max-w-3xl">
-            <p className="text-xs tracking-[0.34em] text-blue-200/80">SELECTED WORKS</p>
+            <p className="text-xs tracking-[0.34em] text-blue-200/80">
+              {labels.galleryEyebrow.toUpperCase()}
+            </p>
             <h3 className="text-[2rem] font-semibold text-white md:text-[2.35rem]">
-              Commission
+              {labels.galleryTitle}
             </h3>
             <p className="mt-2 text-sm leading-7 text-slate-300">
-              A curated archive for commissions, key visuals, and character work.
+              {labels.galleryDescription}
             </p>
           </div>
           <div className="hidden rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm text-blue-100/70 md:block">
-            Ongoing Archive
+            {labels.ongoingArchive}
           </div>
         </div>
 
@@ -188,7 +199,7 @@ export function GallerySection() {
               className="group relative grid w-full overflow-hidden rounded-[24px] border border-white/12 bg-slate-950/35 text-left shadow-[0_16px_36px_rgba(4,8,18,0.24)] md:grid-cols-[minmax(360px,1.15fr)_minmax(260px,0.55fr)] md:rounded-[26px]"
             >
               <span className="pointer-events-none absolute left-4 top-4 z-10 rounded-full border border-white/12 bg-black/28 px-3 py-1 text-[11px] tracking-[0.22em] text-blue-100/75">
-                FEATURED
+                {labels.featured.toUpperCase()}
               </span>
               <ArtworkImage item={featuredItem} priority variant="featured" />
               <div className="relative flex flex-col justify-center gap-4 border-t border-white/10 p-4 md:border-t-0 md:border-l md:border-white/10 md:p-6">
@@ -209,10 +220,10 @@ export function GallerySection() {
                 </div>
                 <dl className="hidden grid-cols-2 gap-2 text-sm md:grid">
                   {[
-                    ["Type", getCategoryLabel(featuredItem.category)],
-                    ["Year", getYear(featuredItem)],
-                    ["Role", getRole(featuredItem)],
-                    ["Client", getClient(featuredItem)],
+                    [labels.type, getCategoryLabel(featuredItem.category)],
+                    [labels.year, getYear(featuredItem)],
+                    [labels.role, getRole(featuredItem)],
+                    [labels.client, getClient(featuredItem)],
                   ].map(([label, value]) => (
                     <div
                       key={label}
@@ -238,7 +249,7 @@ export function GallerySection() {
                   </div>
                 ) : null}
                 <span className="inline-flex w-fit rounded-full border border-blue-200/28 bg-blue-300/14 px-4 py-2 text-sm font-semibold text-blue-50 transition group-hover:bg-blue-300/22">
-                  View Details
+                  {labels.viewDetails}
                 </span>
               </div>
             </motion.button>
@@ -263,7 +274,7 @@ export function GallerySection() {
                   </span>
                   <span className="hidden sm:inline">{getCategoryLabel(category)}</span>
                   <span className="ml-1.5 text-xs text-blue-100/58">
-                    {getCategoryCount(category)}
+                    {getCategoryCount(category, gallery)}
                   </span>
                 </button>
               ))}
@@ -285,10 +296,10 @@ export function GallerySection() {
                   className="group relative overflow-hidden rounded-[22px] border border-white/12 bg-slate-950/35 text-left shadow-[0_16px_36px_rgba(4,8,18,0.24)] transition hover:border-blue-200/42 md:rounded-[24px]"
                 >
                   <span className="pointer-events-none absolute left-4 top-4 z-10 rounded-full border border-white/12 bg-black/28 px-3 py-1 text-[11px] tracking-[0.22em] text-blue-100/75">
-                    WORK
+                    {labels.work.toUpperCase()}
                   </span>
                   <span className="pointer-events-none absolute right-4 top-4 z-10 hidden rounded-full border border-blue-200/28 bg-blue-300/14 px-3 py-1.5 text-xs font-semibold text-blue-50 opacity-0 shadow-[0_0_18px_rgba(103,149,255,0.16)] transition group-hover:opacity-100 md:inline-flex">
-                    View Details
+                    {labels.viewDetails}
                   </span>
                   <ArtworkImage item={item} variant="card" />
                   <div className="space-y-2 border-t border-white/10 p-3.5 md:p-5">
@@ -325,20 +336,22 @@ export function GallerySection() {
             </div>
           ) : (
             <div className="rounded-[24px] border border-dashed border-white/12 bg-black/14 px-5 py-10 text-center">
-              <p className="text-sm tracking-[0.22em] text-blue-200/58">NO WORKS IN THIS CATEGORY YET</p>
+              <p className="text-sm tracking-[0.22em] text-blue-200/58">
+                {labels.noWorksTitle.toUpperCase()}
+              </p>
               <p className="mt-3 text-sm leading-7 text-slate-300/88">
-                Add artwork with the {getCategoryLabel(activeCategory)} category in data/site.ts to populate this section.
+                {labels.noWorksDescription}
               </p>
             </div>
           )}
         </div>
 
         <div className="mt-auto pt-6">
-          <BackToTop />
+          <BackToTop label={labels.backToTop} />
         </div>
       </div>
 
-      <GalleryModal item={selected} onClose={() => setSelected(null)} />
+      <GalleryModal item={selected} labels={labels} onClose={() => setSelected(null)} />
     </section>
   );
 }

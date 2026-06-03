@@ -1,9 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { aboutBlocks, siteInfo } from "@/data/site";
+import type { AboutBlock, PortfolioLabels, SiteInfo } from "@/data/site";
 
-export function AboutSection() {
+export function AboutSection({
+  aboutBlocks,
+  labels,
+  siteInfo,
+}: {
+  aboutBlocks: AboutBlock[];
+  labels: PortfolioLabels;
+  siteInfo: SiteInfo;
+}) {
   return (
     <section id="about">
       <div
@@ -26,32 +34,46 @@ export function AboutSection() {
               />
             </div>
             <div>
-              <p className="text-xs tracking-[0.32em] text-blue-200/80">CHARACTER FILE</p>
-              <h3 className="text-[2rem] leading-none font-semibold text-white">About Me</h3>
+              <p className="text-xs tracking-[0.32em] text-blue-200/80">
+                {labels.aboutEyebrow.toUpperCase()}
+              </p>
+              <h3 className="text-[2rem] leading-none font-semibold text-white">
+                {labels.aboutTitle}
+              </h3>
               <p className="mt-2 text-sm text-blue-100/75">{siteInfo.subtitle}</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full border border-white/14 bg-white/8 px-3 py-1 text-xs tracking-[0.18em] text-blue-50/85">
-                  JELLYFISH
-                </span>
-                <span className="rounded-full border border-white/14 bg-white/8 px-3 py-1 text-xs tracking-[0.18em] text-cyan-50/85">
-                  SEA GLOW
-                </span>
+                {siteInfo.profileTags.map((tag, index) => (
+                  <span
+                    key={tag}
+                    className={`rounded-full border border-white/14 bg-white/8 px-3 py-1 text-xs tracking-[0.18em] ${
+                      index % 2 ? "text-cyan-50/85" : "text-blue-50/85"
+                    }`}
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="mt-5 grid grid-cols-3 gap-2.5">
             <div className="rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">ROLE</p>
-              <p className="mt-2 text-sm font-medium text-white">VTuber / OC</p>
+              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                {labels.role.toUpperCase()}
+              </p>
+              <p className="mt-2 text-sm font-medium text-white">{siteInfo.role}</p>
             </div>
             <div className="rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">AURA</p>
-              <p className="mt-2 text-sm font-medium text-white">Deep Sea</p>
+              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                {labels.aura.toUpperCase()}
+              </p>
+              <p className="mt-2 text-sm font-medium text-white">{siteInfo.aura}</p>
             </div>
             <div className="rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">STYLE</p>
-              <p className="mt-2 text-sm font-medium text-white">Neon Dream</p>
+              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                {labels.style.toUpperCase()}
+              </p>
+              <p className="mt-2 text-sm font-medium text-white">{siteInfo.style}</p>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { ChevronUp } from "lucide-react";
 
-export function BackToTop() {
+export function BackToTop({ label = "Back To Top" }: { label?: string }) {
   return (
     <button
       type="button"
@@ -15,7 +15,7 @@ export function BackToTop() {
           <span className="pointer-events-none absolute inset-1 rounded-full border border-white/5" />
           <ChevronUp size={19} strokeWidth={1.65} aria-hidden="true" />
         </span>
-        <span className="text-sm font-semibold text-blue-50">Back To Top</span>
+        <span className="text-sm font-semibold text-blue-50">{label}</span>
       </span>
     </button>
   );

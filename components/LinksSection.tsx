@@ -1,12 +1,18 @@
 "use client";
 
-import { links } from "@/data/site";
+import type { LinkItem, PortfolioLabels } from "@/data/site";
 
 function toTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-export function LinksSection() {
+export function LinksSection({
+  labels,
+  links,
+}: {
+  labels: PortfolioLabels;
+  links: LinkItem[];
+}) {
   return (
     <section id="links">
       <div
@@ -15,10 +21,12 @@ export function LinksSection() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(165,196,255,0.08),transparent_20%),radial-gradient(circle_at_90%_20%,rgba(111,236,255,0.08),transparent_16%)]" />
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs tracking-[0.32em] text-blue-200/80">LINKS</p>
-            <h3 className="text-2xl font-semibold text-white">My Accounts</h3>
+            <p className="text-xs tracking-[0.32em] text-blue-200/80">
+              {labels.linksEyebrow.toUpperCase()}
+            </p>
+            <h3 className="text-2xl font-semibold text-white">{labels.linksTitle}</h3>
             <p className="mt-2 max-w-[16rem] text-sm leading-6 text-slate-300/90 md:max-w-none">
-              A small hub for updates, archives, and side paths.
+              {labels.linksDescription}
             </p>
           </div>
           <button
@@ -26,7 +34,7 @@ export function LinksSection() {
             onClick={toTop}
             className="shrink-0 rounded-full border border-blue-200/30 bg-blue-300/15 px-4 py-2 text-sm font-semibold text-blue-50 transition hover:bg-blue-300/28"
           >
-            Home
+            {labels.home}
           </button>
         </div>
 

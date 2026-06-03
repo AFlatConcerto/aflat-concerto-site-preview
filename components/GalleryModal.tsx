@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import type { GalleryItem } from "@/data/site";
+import type { GalleryItem, PortfolioLabels } from "@/data/site";
 
 type GalleryModalProps = {
   item: GalleryItem | null;
+  labels: PortfolioLabels;
   onClose: () => void;
 };
 
@@ -37,7 +38,7 @@ function getRole(item: GalleryItem) {
   return item.role ?? (item.category ? getCategoryLabel(item.category) : "Artwork");
 }
 
-export function GalleryModal({ item, onClose }: GalleryModalProps) {
+export function GalleryModal({ item, labels, onClose }: GalleryModalProps) {
   return (
     <AnimatePresence>
       {item ? (
@@ -52,9 +53,9 @@ export function GalleryModal({ item, onClose }: GalleryModalProps) {
             type="button"
             onClick={onClose}
             className="fixed top-4 right-4 z-[60] rounded-full border border-white/14 bg-slate-950/72 px-4 py-2 text-sm tracking-[0.18em] text-blue-50 shadow-[0_12px_28px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:bg-slate-900/88 md:hidden"
-            aria-label="Close artwork modal"
+            aria-label={labels.close}
           >
-            Close
+            {labels.close}
           </button>
           <motion.div
             className="relative my-12 grid w-full max-w-5xl gap-4 overflow-hidden rounded-[30px] border border-blue-100/18 bg-[linear-gradient(180deg,rgba(10,16,38,0.95),rgba(5,8,22,0.88))] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.45)] backdrop-blur-xl md:my-0 md:grid-cols-[1.55fr_0.8fr]"
@@ -82,7 +83,9 @@ export function GalleryModal({ item, onClose }: GalleryModalProps) {
             <aside className="relative overflow-hidden rounded-[24px] border border-white/12 bg-[linear-gradient(180deg,rgba(18,26,56,0.92),rgba(10,15,34,0.84))] p-4 text-slate-100 md:p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-[11px] tracking-[0.28em] text-blue-200/60">WORK DETAILS</p>
+                  <p className="text-[11px] tracking-[0.28em] text-blue-200/60">
+                    {labels.workDetails.toUpperCase()}
+                  </p>
                   <h4 className="mt-2 text-2xl font-semibold text-white">{item.title}</h4>
                 </div>
                 <button
@@ -90,7 +93,7 @@ export function GalleryModal({ item, onClose }: GalleryModalProps) {
                   onClick={onClose}
                   className="hidden rounded-full border border-white/12 bg-white/6 px-3 py-1.5 text-xs tracking-[0.18em] text-blue-50 transition hover:bg-white/12 md:inline-flex"
                 >
-                  Close
+                  {labels.close}
                 </button>
               </div>
 
@@ -109,12 +112,12 @@ export function GalleryModal({ item, onClose }: GalleryModalProps) {
 
               <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
                 {[
-                  ["TYPE", item.category ? getCategoryLabel(item.category) : "Artwork"],
-                  ["YEAR", getYear(item)],
-                  ["ROLE", getRole(item)],
-                  ["CLIENT", getClient(item)],
-                  ["CREATOR", item.creator ?? "AFlatConcerto"],
-                  ["DATE", item.createdAt ?? "TBD"],
+                  [labels.type, item.category ? getCategoryLabel(item.category) : "Artwork"],
+                  [labels.year, getYear(item)],
+                  [labels.role, getRole(item)],
+                  [labels.client, getClient(item)],
+                  [labels.creator, item.creator ?? "AFlatConcerto"],
+                  [labels.date, item.createdAt ?? "TBD"],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-[18px] border border-white/10 bg-black/16 p-3">
                     <dt className="text-[11px] tracking-[0.22em] text-blue-200/55">{label}</dt>
@@ -125,7 +128,9 @@ export function GalleryModal({ item, onClose }: GalleryModalProps) {
 
               {item.description ? (
                 <div className="mt-2 rounded-[18px] border border-white/10 bg-black/16 p-4">
-                  <p className="text-[11px] tracking-[0.22em] text-blue-200/55">NOTES</p>
+                  <p className="text-[11px] tracking-[0.22em] text-blue-200/55">
+                    {labels.notes.toUpperCase()}
+                  </p>
                   <p className="mt-2.5 leading-7 text-slate-200/92">{item.description}</p>
                 </div>
               ) : null}
