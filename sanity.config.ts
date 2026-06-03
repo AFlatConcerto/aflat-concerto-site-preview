@@ -15,5 +15,19 @@ export default defineConfig({
   plugins: [structureTool({ structure })],
   schema: {
     types: schemaTypes,
+    templates: (prev) => [
+      ...prev.filter((template) => template.id !== "artwork"),
+      {
+        id: "artwork-by-site",
+        title: "新增作品",
+        schemaType: "artwork",
+        parameters: [{ name: "siteKey", type: "string" }],
+        value: ({ siteKey }: { siteKey?: string }) => ({
+          siteKey: siteKey || "main",
+          displayOrder: 100,
+          featured: false,
+        }),
+      },
+    ],
   },
 });
