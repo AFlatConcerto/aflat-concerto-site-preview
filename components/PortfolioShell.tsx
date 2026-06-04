@@ -39,7 +39,12 @@ export function PortfolioShell({ contentByLanguage }: PortfolioShellProps) {
         </button>
       </div>
       <main className="relative mx-auto flex w-full max-w-[1560px] flex-col gap-5 px-3 pt-3 pb-10 md:gap-6 md:px-5 md:pt-5 md:pb-14 xl:px-8">
-        <PosterStage labels={content.labels} siteInfo={content.siteInfo} />
+        <PosterStage
+          labels={content.labels}
+          siteInfo={content.siteInfo}
+          siteKey={content.siteKey}
+          onLanguageSwitch={switchLanguage}
+        />
 
         <section className="relative space-y-5 md:space-y-6">
           <div className="pointer-events-none absolute inset-x-10 top-6 -z-10 h-48 rounded-full bg-[radial-gradient(circle,_rgba(121,163,255,0.22),_transparent_72%)] blur-3xl" />

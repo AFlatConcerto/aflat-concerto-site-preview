@@ -1,5 +1,5 @@
 import type { GalleryItem, Language, SiteContent } from "@/data/site";
-import { defaultContentByLanguage } from "@/data/site";
+import { assetPath, defaultContentByLanguage } from "@/data/site";
 import { sanityClient } from "./client";
 import { sanityEnabled, siteKey } from "./env";
 
@@ -268,7 +268,18 @@ export async function fetchSiteContent(
   language: Language,
   requestedSiteKey = siteKey,
 ): Promise<SiteContent> {
-  const fallback = defaultContentByLanguage[language];
+  const defaultFallback = defaultContentByLanguage[language];
+  const fallback =
+    requestedSiteKey === "second"
+      ? {
+          ...defaultFallback,
+          siteKey: "second",
+          siteInfo: {
+            ...defaultFallback.siteInfo,
+            backgroundImage: assetPath("/assets/poster-second.webp"),
+          },
+        }
+      : defaultFallback;
 
   if (!sanityEnabled) {
     return fallback;

@@ -6,13 +6,14 @@ import { assetPath, type PortfolioLabels, type SiteInfo } from "@/data/site";
 
 type Hotspot = {
   id: string;
-  image: string;
+  image?: string;
   label: string;
-  target: "home" | "about" | "links" | "gallery";
+  target: "home" | "about" | "links" | "gallery" | "language";
   className: string;
+  visible?: boolean;
 };
 
-const hotspots: Hotspot[] = [
+const mainHotspots: Hotspot[] = [
   {
     id: "links",
     image: assetPath("/assets/hotspots/btn-links.png"),
@@ -26,6 +27,23 @@ const hotspots: Hotspot[] = [
     label: "Home",
     target: "home",
     className: "left-[83.10%] top-[79.96%] h-[12.08%] w-[12.45%]",
+  },
+];
+
+const secondHotspots: Hotspot[] = [
+  {
+    id: "language",
+    label: "Switch language",
+    target: "language",
+    className: "left-[69.3%] top-[82.1%] h-[6.2%] w-[12.8%]",
+    visible: false,
+  },
+  {
+    id: "home",
+    label: "Home",
+    target: "home",
+    className: "left-[82.3%] top-[82.1%] h-[6.2%] w-[12.8%]",
+    visible: false,
   },
 ];
 
@@ -64,11 +82,24 @@ function getNavItems(labels: PortfolioLabels): Array<{
 export function PosterStage({
   labels,
   siteInfo,
+  siteKey,
+  onLanguageSwitch,
 }: {
   labels: PortfolioLabels;
   siteInfo: SiteInfo;
+  siteKey: string;
+  onLanguageSwitch: () => void;
 }) {
   const navItems = getNavItems(labels);
+  const hotspots = siteKey === "second" ? secondHotspots : mainHotspots;
+
+  function handleHotspotClick(target: Hotspot["target"]) {
+    if (target === "language") {
+      onLanguageSwitch();
+      return;
+    }
+    scrollTo(target);
+  }
 
   return (
     <section id="home">
@@ -90,18 +121,22 @@ export function PosterStage({
             <button
               key={hotspot.id}
               type="button"
-              onClick={() => scrollTo(hotspot.target)}
-              className={`group absolute z-20 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${hotspot.className}`}
+              onClick={() => handleHotspotClick(hotspot.target)}
+              className={`group absolute z-20 cursor-pointer rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${hotspot.visible === false ? "bg-cyan-100/0 transition hover:bg-cyan-100/5" : ""} ${hotspot.className}`}
               aria-label={hotspot.label}
               title={hotspot.label}
             >
-              <Image
-                src={hotspot.image}
-                alt={hotspot.label}
-                fill
-                sizes="(max-width: 768px) 30vw, 16vw"
-                className="object-contain transition duration-150 group-hover:scale-[1.01] group-hover:brightness-110 group-active:scale-[0.99]"
-              />
+              {hotspot.image ? (
+                <Image
+                  src={hotspot.image}
+                  alt={hotspot.label}
+                  fill
+                  sizes="(max-width: 768px) 30vw, 16vw"
+                  className="object-contain transition duration-150 group-hover:scale-[1.01] group-hover:brightness-110 group-active:scale-[0.99]"
+                />
+              ) : (
+                <span className="sr-only">{hotspot.label}</span>
+              )}
             </button>
           ))}
         </div>
