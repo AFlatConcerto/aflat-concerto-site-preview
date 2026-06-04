@@ -11,6 +11,7 @@ type Hotspot = {
   target: "home" | "about" | "links" | "gallery" | "language";
   className: string;
   visible?: boolean;
+  revealOnHover?: boolean;
 };
 
 const mainHotspots: Hotspot[] = [
@@ -33,17 +34,21 @@ const mainHotspots: Hotspot[] = [
 const secondHotspots: Hotspot[] = [
   {
     id: "language",
+    image: assetPath("/assets/hotspots/btn-second-language.png"),
     label: "Switch language",
     target: "language",
-    className: "left-[69.3%] top-[82.1%] h-[6.2%] w-[12.8%]",
+    className: "left-[68.9%] top-[80.65%] h-[12.5%] w-[12.55%]",
     visible: false,
+    revealOnHover: true,
   },
   {
     id: "home",
+    image: assetPath("/assets/hotspots/btn-second-home.png"),
     label: "Home",
     target: "home",
-    className: "left-[82.3%] top-[82.1%] h-[6.2%] w-[12.8%]",
+    className: "left-[81.43%] top-[80.65%] h-[12.5%] w-[12.55%]",
     visible: false,
+    revealOnHover: true,
   },
 ];
 
@@ -132,7 +137,11 @@ export function PosterStage({
                   alt={hotspot.label}
                   fill
                   sizes="(max-width: 768px) 30vw, 16vw"
-                  className="object-contain transition duration-150 group-hover:scale-[1.01] group-hover:brightness-110 group-active:scale-[0.99]"
+                  className={`object-contain transition duration-150 group-hover:scale-[1.025] group-hover:brightness-125 group-active:scale-[0.99] ${
+                    hotspot.revealOnHover
+                      ? "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+                      : ""
+                  }`}
                 />
               ) : (
                 <span className="sr-only">{hotspot.label}</span>
