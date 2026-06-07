@@ -45,6 +45,11 @@ type SanitySite = {
   styleZh?: string;
   profileTagsEn?: string[];
   profileTagsZh?: string[];
+  themeBackground?: string;
+  themeSurface?: string;
+  themePrimary?: string;
+  themeAccent?: string;
+  themeText?: string;
   avatar?: SanityImage;
   heroImage?: SanityImage;
   backgroundImage?: SanityImage;
@@ -81,6 +86,11 @@ const siteContentQuery = `
   styleZh,
   profileTagsEn,
   profileTagsZh,
+  themeBackground,
+  themeSurface,
+  themePrimary,
+  themeAccent,
+  themeText,
   "avatar": avatar.asset->{url, "width": metadata.dimensions.width, "height": metadata.dimensions.height},
   "heroImage": heroImage.asset->{url, "width": metadata.dimensions.width, "height": metadata.dimensions.height},
   "backgroundImage": backgroundImage.asset->{url, "width": metadata.dimensions.width, "height": metadata.dimensions.height},
@@ -136,6 +146,10 @@ function imageUrl(image: SanityImage | undefined, fallback: string) {
   return image?.url || fallback;
 }
 
+function colorWithFallback(value: string | undefined, fallback: string) {
+  return /^#[0-9a-fA-F]{6}$/.test(value || "") ? value! : fallback;
+}
+
 function mapArtwork(
   item: SanityArtwork,
   language: Language,
@@ -183,6 +197,13 @@ function mapContent(
 
   return {
     siteKey: site.siteKey || fallback.siteKey,
+    theme: {
+      background: colorWithFallback(site.themeBackground, fallback.theme.background),
+      surface: colorWithFallback(site.themeSurface, fallback.theme.surface),
+      primary: colorWithFallback(site.themePrimary, fallback.theme.primary),
+      accent: colorWithFallback(site.themeAccent, fallback.theme.accent),
+      text: colorWithFallback(site.themeText, fallback.theme.text),
+    },
     siteInfo: {
       name:
         pickWithFallback(
@@ -277,6 +298,13 @@ export async function fetchSiteContent(
           siteInfo: {
             ...defaultFallback.siteInfo,
             backgroundImage: assetPath("/assets/poster-second.webp"),
+          },
+          theme: {
+            background: "#03020a",
+            surface: "#10071e",
+            primary: "#7e5cd2",
+            accent: "#9c6fff",
+            text: "#f1ecff",
           },
         }
       : defaultFallback;

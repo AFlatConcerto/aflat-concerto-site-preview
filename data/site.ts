@@ -13,6 +13,14 @@ export type SiteInfo = {
   profileTags: string[];
 };
 
+export type SiteTheme = {
+  background: string;
+  surface: string;
+  primary: string;
+  accent: string;
+  text: string;
+};
+
 export type AboutBlock = {
   title: string;
   body: string;
@@ -90,6 +98,7 @@ export type PortfolioLabels = {
 
 export type SiteContent = {
   siteKey: string;
+  theme: SiteTheme;
   siteInfo: SiteInfo;
   aboutBlocks: AboutBlock[];
   links: LinkItem[];
@@ -104,6 +113,13 @@ export function assetPath(path: string) {
 
 const englishContent: SiteContent = {
   siteKey: "main",
+  theme: {
+    background: "#020611",
+    surface: "#0b1026",
+    primary: "#678cff",
+    accent: "#6ce6ff",
+    text: "#e5f0ff",
+  },
   siteInfo: {
     name: "AFlatConcerto",
     subtitle: "A-flat Major Concerto",

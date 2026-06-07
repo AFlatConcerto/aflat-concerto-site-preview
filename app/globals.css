@@ -214,3 +214,195 @@ h4 {
 .site-shell[data-site="second"] .text-cyan-100\/82 {
   color: rgba(232, 218, 255, 0.88);
 }
+
+.site-shell[data-site] {
+  --site-bg: #020611;
+  --site-surface: #0b1026;
+  --site-primary: #678cff;
+  --site-accent: #6ce6ff;
+  --site-text: #e5f0ff;
+  background: var(--site-bg);
+  color: var(--site-text);
+}
+
+.site-shell[data-site] .page-aura {
+  background:
+    radial-gradient(
+      1100px 560px at 50% -10%,
+      color-mix(in srgb, var(--site-primary) 45%, transparent),
+      transparent 66%
+    ),
+    radial-gradient(
+      760px 420px at 82% 18%,
+      color-mix(in srgb, var(--site-accent) 24%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      540px 320px at 16% 26%,
+      color-mix(in srgb, var(--site-primary) 28%, transparent),
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--site-bg) 92%, #000 8%) 0%,
+      var(--site-bg) 48%,
+      color-mix(in srgb, var(--site-surface) 52%, var(--site-bg) 48%) 100%
+    );
+}
+
+.site-shell[data-site]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(color-mix(in srgb, var(--site-text) 3%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--site-text) 3%, transparent) 1px, transparent 1px);
+  background-size: 70px 70px;
+  mask-image: radial-gradient(circle at 50% 24%, black 44%, transparent 92%);
+}
+
+.site-shell[data-site] .language-toggle,
+.site-shell[data-site] .home-pill,
+.site-shell[data-site] .category-button[aria-pressed="true"],
+.site-shell[data-site] .back-to-top > span {
+  border-color: color-mix(in srgb, var(--site-accent) 38%, transparent);
+  background: color-mix(in srgb, var(--site-primary) 24%, var(--site-surface));
+  color: var(--site-text);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--site-primary) 18%, transparent);
+}
+
+.site-shell[data-site] .language-toggle:hover,
+.site-shell[data-site] .home-pill:hover,
+.site-shell[data-site] .back-to-top:hover > span {
+  border-color: color-mix(in srgb, var(--site-accent) 58%, transparent);
+  background: color-mix(in srgb, var(--site-accent) 22%, var(--site-surface));
+}
+
+.site-shell[data-site] .poster-frame,
+.site-shell[data-site] .content-panel {
+  border-color: color-mix(in srgb, var(--site-text) 14%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--site-surface) 88%, var(--site-bg) 12%),
+    color-mix(in srgb, var(--site-bg) 84%, var(--site-surface) 16%)
+  );
+  box-shadow:
+    0 24px 64px color-mix(in srgb, #000 42%, transparent),
+    0 0 38px color-mix(in srgb, var(--site-primary) 14%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--site-text) 6%, transparent);
+}
+
+.site-shell[data-site] .poster-canvas,
+.site-shell[data-site] .artwork-card > div:first-child {
+  background: color-mix(in srgb, var(--site-bg) 88%, #000 12%);
+}
+
+.site-shell[data-site] .poster-nav,
+.site-shell[data-site] .back-to-top,
+.site-shell[data-site] .category-bar {
+  border-color: color-mix(in srgb, var(--site-text) 12%, transparent);
+  background: color-mix(in srgb, var(--site-surface) 42%, transparent);
+}
+
+.site-shell[data-site] .poster-nav-button {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--site-surface) 82%, var(--site-primary) 18%),
+    color-mix(in srgb, var(--site-bg) 80%, var(--site-surface) 20%)
+  );
+  color: var(--site-text);
+}
+
+.site-shell[data-site] .poster-nav-button:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--site-surface) 68%, var(--site-accent) 32%),
+    color-mix(in srgb, var(--site-bg) 70%, var(--site-primary) 30%)
+  );
+}
+
+.site-shell[data-site] .about-panel::before,
+.site-shell[data-site] .links-panel::before,
+.site-shell[data-site] .gallery-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 12% 0%,
+      color-mix(in srgb, var(--site-primary) 16%, transparent),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 92% 8%,
+      color-mix(in srgb, var(--site-accent) 14%, transparent),
+      transparent 22%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--site-primary) 10%, transparent),
+      transparent 46%,
+      color-mix(in srgb, var(--site-accent) 10%, transparent)
+    );
+}
+
+.site-shell[data-site] .stat-tile,
+.site-shell[data-site] .info-tile,
+.site-shell[data-site] .link-card,
+.site-shell[data-site] .artwork-card {
+  border-color: color-mix(in srgb, var(--site-text) 12%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--site-surface) 62%, transparent),
+    color-mix(in srgb, var(--site-bg) 58%, transparent)
+  );
+}
+
+.site-shell[data-site] .link-card:hover,
+.site-shell[data-site] .artwork-card:hover {
+  border-color: color-mix(in srgb, var(--site-accent) 44%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--site-surface) 62%, var(--site-accent) 12%),
+    color-mix(in srgb, var(--site-bg) 70%, var(--site-primary) 18%)
+  );
+  box-shadow:
+    0 18px 42px color-mix(in srgb, #000 34%, transparent),
+    0 0 24px color-mix(in srgb, var(--site-accent) 16%, transparent);
+}
+
+.site-shell[data-site] .text-white,
+.site-shell[data-site] .text-blue-50,
+.site-shell[data-site] .text-blue-50\/85,
+.site-shell[data-site] .text-blue-50\/82,
+.site-shell[data-site] .text-blue-50\/80,
+.site-shell[data-site] .text-cyan-50\/85 {
+  color: var(--site-text);
+}
+
+.site-shell[data-site] .text-blue-200\/80,
+.site-shell[data-site] .text-blue-200\/75,
+.site-shell[data-site] .text-blue-200\/70,
+.site-shell[data-site] .text-blue-100\/80,
+.site-shell[data-site] .text-blue-100\/75,
+.site-shell[data-site] .text-blue-100\/72,
+.site-shell[data-site] .text-blue-100\/70,
+.site-shell[data-site] .text-blue-100\/58,
+.site-shell[data-site] .text-blue-100\/54,
+.site-shell[data-site] .text-blue-200\/65,
+.site-shell[data-site] .text-blue-200\/60,
+.site-shell[data-site] .text-blue-200\/58,
+.site-shell[data-site] .text-blue-200\/55,
+.site-shell[data-site] .text-blue-200\/52,
+.site-shell[data-site] .text-cyan-100\/82,
+.site-shell[data-site] .text-slate-200\/88,
+.site-shell[data-site] .text-slate-200\/86,
+.site-shell[data-site] .text-slate-300,
+.site-shell[data-site] .text-slate-300\/90,
+.site-shell[data-site] .text-slate-300\/88,
+.site-shell[data-site] .text-slate-300\/86 {
+  color: color-mix(in srgb, var(--site-text) 76%, transparent);
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { AboutSection } from "@/components/AboutSection";
 import { GallerySection } from "@/components/GallerySection";
 import { LinksSection } from "@/components/LinksSection";
@@ -27,6 +27,13 @@ export function PortfolioShell({ contentByLanguage, siteKey }: PortfolioShellPro
   });
   const content = liveContentByLanguage[language];
   const otherLanguage = language === "en" ? "zh" : "en";
+  const themeStyle = {
+    "--site-bg": content.theme.background,
+    "--site-surface": content.theme.surface,
+    "--site-primary": content.theme.primary,
+    "--site-accent": content.theme.accent,
+    "--site-text": content.theme.text,
+  } as CSSProperties;
 
   useEffect(() => {
     let cancelled = false;
@@ -66,6 +73,7 @@ export function PortfolioShell({ contentByLanguage, siteKey }: PortfolioShellPro
     <div
       id="top"
       data-site={content.siteKey}
+      style={themeStyle}
       className="site-shell relative min-h-screen overflow-x-hidden"
     >
       <div className="page-aura" />
