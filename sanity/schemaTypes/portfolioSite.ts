@@ -1,5 +1,11 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const colorRule = (rule: any) =>
+  rule.regex(/^#[0-9a-fA-F]{6}$/, {
+    name: "hex color",
+    invert: false,
+  });
+
 export const portfolioSite = defineType({
   name: "portfolioSite",
   title: "首页内容",
@@ -27,27 +33,14 @@ export const portfolioSite = defineType({
       title: "后台显示名称",
       type: "string",
       group: "basic",
-      description:
-        "用于后台左侧的网站列表名称。修改并发布后，刷新后台即可看到新名称。",
+      description: "用于后台左侧的网站列表名称。",
     }),
     defineField({ name: "nameEn", title: "网站名称（英文）", type: "string", group: "basic" }),
     defineField({ name: "nameZh", title: "网站名称（中文）", type: "string", group: "basic" }),
     defineField({ name: "subtitleEn", title: "副标题（英文）", type: "string", group: "basic" }),
     defineField({ name: "subtitleZh", title: "副标题（中文）", type: "string", group: "basic" }),
-    defineField({
-      name: "descriptionEn",
-      title: "网站简介（英文）",
-      type: "text",
-      rows: 3,
-      group: "basic",
-    }),
-    defineField({
-      name: "descriptionZh",
-      title: "网站简介（中文）",
-      type: "text",
-      rows: 3,
-      group: "basic",
-    }),
+    defineField({ name: "descriptionEn", title: "网站简介（英文）", type: "text", rows: 3, group: "basic" }),
+    defineField({ name: "descriptionZh", title: "网站简介（中文）", type: "text", rows: 3, group: "basic" }),
     defineField({
       name: "avatar",
       title: "头像",
@@ -56,18 +49,12 @@ export const portfolioSite = defineType({
       group: "images",
     }),
     defineField({
-      name: "heroImage",
-      title: "角色主图",
-      type: "image",
-      options: { hotspot: true },
-      group: "images",
-    }),
-    defineField({
       name: "backgroundImage",
-      title: "首页海报 / 背景图",
+      title: "首页顶部大图 / 海报",
       type: "image",
       options: { hotspot: true },
       group: "images",
+      description: "控制网站最顶部的大图。关于我区域只显示头像和文字信息。",
     }),
     defineField({
       name: "themeBackground",
@@ -75,11 +62,7 @@ export const portfolioSite = defineType({
       type: "string",
       group: "theme",
       description: "填写十六进制颜色，例如 #020611。",
-      validation: (rule) =>
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {
-          name: "hex color",
-          invert: false,
-        }),
+      validation: colorRule,
     }),
     defineField({
       name: "themeSurface",
@@ -87,11 +70,7 @@ export const portfolioSite = defineType({
       type: "string",
       group: "theme",
       description: "用于内容面板、作品卡片和按钮底色，例如 #0b1026。",
-      validation: (rule) =>
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {
-          name: "hex color",
-          invert: false,
-        }),
+      validation: colorRule,
     }),
     defineField({
       name: "themePrimary",
@@ -99,11 +78,7 @@ export const portfolioSite = defineType({
       type: "string",
       group: "theme",
       description: "用于边框、光晕、当前选中状态，例如 #678cff。",
-      validation: (rule) =>
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {
-          name: "hex color",
-          invert: false,
-        }),
+      validation: colorRule,
     }),
     defineField({
       name: "themeAccent",
@@ -111,11 +86,7 @@ export const portfolioSite = defineType({
       type: "string",
       group: "theme",
       description: "用于 hover、发光和辅助装饰，例如 #6ce6ff。",
-      validation: (rule) =>
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {
-          name: "hex color",
-          invert: false,
-        }),
+      validation: colorRule,
     }),
     defineField({
       name: "themeText",
@@ -123,18 +94,14 @@ export const portfolioSite = defineType({
       type: "string",
       group: "theme",
       description: "建议使用浅色，例如 #e5f0ff。",
-      validation: (rule) =>
-        rule.regex(/^#[0-9a-fA-F]{6}$/, {
-          name: "hex color",
-          invert: false,
-        }),
+      validation: colorRule,
     }),
-    defineField({ name: "roleEn", title: "定位（英文）", type: "string", group: "basic" }),
-    defineField({ name: "roleZh", title: "定位（中文）", type: "string", group: "basic" }),
-    defineField({ name: "auraEn", title: "氛围（英文）", type: "string", group: "basic" }),
-    defineField({ name: "auraZh", title: "氛围（中文）", type: "string", group: "basic" }),
-    defineField({ name: "styleEn", title: "风格（英文）", type: "string", group: "basic" }),
-    defineField({ name: "styleZh", title: "风格（中文）", type: "string", group: "basic" }),
+    defineField({ name: "roleEn", title: "定位/性别（英文）", type: "string", group: "basic" }),
+    defineField({ name: "roleZh", title: "定位/性别（中文）", type: "string", group: "basic" }),
+    defineField({ name: "auraEn", title: "生日（英文）", type: "string", group: "basic" }),
+    defineField({ name: "auraZh", title: "生日（中文）", type: "string", group: "basic" }),
+    defineField({ name: "styleEn", title: "生物/年龄（英文）", type: "string", group: "basic" }),
+    defineField({ name: "styleZh", title: "生物/年龄（中文）", type: "string", group: "basic" }),
     defineField({
       name: "profileTagsEn",
       title: "个人标签（英文）",
@@ -161,18 +128,8 @@ export const portfolioSite = defineType({
           fields: [
             defineField({ name: "titleEn", title: "标题（英文）", type: "string" }),
             defineField({ name: "titleZh", title: "标题（中文）", type: "string" }),
-            defineField({
-              name: "bodyEn",
-              title: "内容（英文）",
-              type: "text",
-              rows: 2,
-            }),
-            defineField({
-              name: "bodyZh",
-              title: "内容（中文）",
-              type: "text",
-              rows: 2,
-            }),
+            defineField({ name: "bodyEn", title: "内容（英文）", type: "text", rows: 2 }),
+            defineField({ name: "bodyZh", title: "内容（中文）", type: "text", rows: 2 }),
           ],
           preview: {
             select: { title: "titleZh", subtitle: "titleEn" },

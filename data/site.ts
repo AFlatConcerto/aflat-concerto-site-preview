@@ -44,6 +44,7 @@ export type GalleryItem = {
   creator?: string;
   createdAt?: string;
   role?: string;
+  colorPalette?: string;
   client?: string;
   description?: string;
   category?: string;
@@ -80,6 +81,8 @@ export type PortfolioLabels = {
   close: string;
   workDetails: string;
   type: string;
+  character: string;
+  color: string;
   year: string;
   client: string;
   creator: string;
@@ -289,6 +292,8 @@ const englishContent: SiteContent = {
     close: "Close",
     workDetails: "Work Details",
     type: "Type",
+    character: "Character",
+    color: "Color",
     year: "Year",
     client: "Client",
     creator: "Creator",
@@ -447,6 +452,8 @@ const chineseContent: SiteContent = {
     close: "关闭",
     workDetails: "作品详情",
     type: "类型",
+    character: "角色",
+    color: "色系",
     year: "年份",
     client: "客户",
     creator: "作者",

@@ -14,16 +14,16 @@ function getCategoryLabel(labels: PortfolioLabels, category: string) {
   return labels.categoryLabels[category] ?? category;
 }
 
-function getYear(item: GalleryItem, labels: PortfolioLabels) {
-  return item.createdAt?.slice(0, 4) ?? labels.tbd;
-}
-
-function getClient(item: GalleryItem, labels: PortfolioLabels) {
-  return item.client ?? item.creator ?? labels.personalWork;
-}
-
 function getRole(item: GalleryItem, labels: PortfolioLabels) {
   return item.role ?? (item.category ? getCategoryLabel(labels, item.category) : labels.artworkFallback);
+}
+
+function getColor(item: GalleryItem, labels: PortfolioLabels) {
+  return item.colorPalette ?? labels.tbd;
+}
+
+function getDate(item: GalleryItem, labels: PortfolioLabels) {
+  return item.createdAt ?? labels.tbd;
 }
 
 export function GalleryModal({ item, labels, onClose }: GalleryModalProps) {
@@ -101,16 +101,14 @@ export function GalleryModal({ item, labels, onClose }: GalleryModalProps) {
               <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
                 {[
                   [
-                    labels.type,
+                    labels.character,
                     item.category
                       ? getCategoryLabel(labels, item.category)
                       : labels.artworkFallback,
                   ],
-                  [labels.year, getYear(item, labels)],
-                  [labels.role, getRole(item, labels)],
-                  [labels.client, getClient(item, labels)],
-                  [labels.creator, item.creator ?? "AFlatConcerto"],
-                  [labels.date, item.createdAt ?? labels.tbd],
+                  [labels.color, getColor(item, labels)],
+                  [labels.type, getRole(item, labels)],
+                  [labels.date, getDate(item, labels)],
                 ].map(([label, value]) => (
                   <div key={label} className="gallery-modal-metric rounded-[18px] border border-white/10 bg-black/16 p-3">
                     <dt className="text-[11px] tracking-[0.22em] text-blue-200/55">{label}</dt>

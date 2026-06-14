@@ -21,16 +21,16 @@ function getCategoryCount(category: string, gallery: GalleryItem[]) {
   return gallery.filter((item) => item.category === category).length;
 }
 
-function getYear(item: GalleryItem, labels: PortfolioLabels) {
-  return item.createdAt?.slice(0, 4) ?? labels.tbd;
-}
-
-function getClient(item: GalleryItem, labels: PortfolioLabels) {
-  return item.client ?? item.creator ?? labels.personalWork;
-}
-
 function getRole(item: GalleryItem, labels: PortfolioLabels) {
   return item.role ?? getCategoryLabel(labels, item.category);
+}
+
+function getColor(item: GalleryItem, labels: PortfolioLabels) {
+  return item.colorPalette ?? labels.tbd;
+}
+
+function getDate(item: GalleryItem, labels: PortfolioLabels) {
+  return item.createdAt ?? labels.tbd;
 }
 
 function ArtworkImage({
@@ -130,8 +130,6 @@ export function GallerySection({
       <div className="content-panel gallery-panel relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,16,40,0.96),rgba(6,10,24,0.84))] p-5 shadow-[0_18px_40px_rgba(5,8,20,0.32)] md:p-6">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(165,180,255,0.1),transparent_20%),radial-gradient(circle_at_86%_10%,rgba(108,230,255,0.1),transparent_18%)]" />
         <div className="pointer-events-none absolute left-8 right-8 top-0 h-px bg-gradient-to-r from-transparent via-white/22 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-12 left-6 w-px bg-gradient-to-b from-transparent via-blue-100/12 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-12 right-6 w-px bg-gradient-to-b from-transparent via-cyan-100/10 to-transparent" />
 
         <div className="relative flex items-end justify-between gap-3">
           <div className="max-w-3xl">
@@ -163,7 +161,7 @@ export function GallerySection({
                 {labels.featured.toUpperCase()}
               </span>
               <ArtworkImage item={featuredItem} priority variant="featured" />
-              <div className="relative flex flex-col justify-center gap-4 border-t border-white/10 p-4 md:border-t-0 md:border-l md:border-white/10 md:p-6">
+              <div className="relative flex flex-col justify-center gap-4 border-t border-white/10 p-4 md:border-t-0 md:p-6">
                 <div className="space-y-3">
                   {featuredItem.category ? (
                     <span className="inline-flex rounded-full border border-white/12 bg-white/7 px-3 py-1 text-[11px] tracking-[0.16em] text-blue-100/80">
@@ -181,10 +179,10 @@ export function GallerySection({
                 </div>
                 <dl className="hidden grid-cols-2 gap-2 text-sm md:grid">
                   {[
-                    [labels.type, getCategoryLabel(labels, featuredItem.category)],
-                    [labels.year, getYear(featuredItem, labels)],
-                    [labels.role, getRole(featuredItem, labels)],
-                    [labels.client, getClient(featuredItem, labels)],
+                    [labels.character, getCategoryLabel(labels, featuredItem.category)],
+                    [labels.color, getColor(featuredItem, labels)],
+                    [labels.type, getRole(featuredItem, labels)],
+                    [labels.date, getDate(featuredItem, labels)],
                   ].map(([label, value]) => (
                     <div
                       key={label}

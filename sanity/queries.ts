@@ -21,6 +21,8 @@ type SanityArtwork = {
   createdAt?: string;
   roleEn?: string;
   roleZh?: string;
+  colorPaletteEn?: string;
+  colorPaletteZh?: string;
   clientEn?: string;
   clientZh?: string;
   tags?: string[];
@@ -108,6 +110,8 @@ const siteContentQuery = `
     createdAt,
     roleEn,
     roleZh,
+    colorPaletteEn,
+    colorPaletteZh,
     clientEn,
     clientZh,
     tags,
@@ -171,6 +175,12 @@ function mapArtwork(
     creator: item.creator || fallback?.creator,
     createdAt: item.createdAt || fallback?.createdAt,
     role: pickWithFallback(language, item.roleEn, item.roleZh, fallback?.role),
+    colorPalette: pickWithFallback(
+      language,
+      item.colorPaletteEn,
+      item.colorPaletteZh,
+      fallback?.colorPalette,
+    ),
     client: pickWithFallback(language, item.clientEn, item.clientZh, fallback?.client),
     description: pickWithFallback(
       language,
