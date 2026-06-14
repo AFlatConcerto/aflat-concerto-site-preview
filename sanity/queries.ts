@@ -311,6 +311,10 @@ export async function fetchSiteContent(
             role: language === "zh" ? "性别" : "Gender",
             aura: language === "zh" ? "生日" : "Birthday",
             style: language === "zh" ? "年龄" : "Age",
+            linksDescription:
+              language === "zh"
+                ? "用于展示更新、归档和其他平台入口。"
+                : "A small hub for updates, archives, and side paths.",
           },
         }
       : defaultFallback;
