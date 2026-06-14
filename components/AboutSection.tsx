@@ -21,60 +21,73 @@ export function AboutSection({
         <div className="pointer-events-none absolute right-4 top-4 h-24 w-24 rounded-full border border-white/8" />
         <div className="pointer-events-none absolute right-10 top-10 h-12 w-12 rounded-full border border-white/10" />
 
-        <div className="relative">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="absolute -inset-2 rounded-[26px] bg-[radial-gradient(circle,_rgba(134,167,255,0.28),_transparent_72%)] blur-xl" />
-              <Image
-                src={siteInfo.avatar}
-                alt="avatar"
-                width={92}
-                height={92}
-                className="relative rounded-[24px] border border-blue-100/25 object-cover shadow-[0_0_20px_rgba(120,164,255,0.18)]"
-              />
+        <div className="relative grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(240px,0.42fr)]">
+          <div>
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute -inset-2 rounded-[26px] bg-[radial-gradient(circle,_rgba(134,167,255,0.28),_transparent_72%)] blur-xl" />
+                <Image
+                  src={siteInfo.avatar}
+                  alt="avatar"
+                  width={92}
+                  height={92}
+                  className="relative rounded-[24px] border border-blue-100/25 object-cover shadow-[0_0_20px_rgba(120,164,255,0.18)]"
+                />
+              </div>
+              <div>
+                <p className="text-xs tracking-[0.32em] text-blue-200/80">
+                  {labels.aboutEyebrow.toUpperCase()}
+                </p>
+                <h3 className="text-[2rem] leading-none font-semibold text-white">
+                  {labels.aboutTitle}
+                </h3>
+                <p className="mt-2 text-sm text-blue-100/75">{siteInfo.subtitle}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {siteInfo.profileTags.map((tag, index) => (
+                    <span
+                      key={tag}
+                      className={`rounded-full border border-white/14 bg-white/8 px-3 py-1 text-xs tracking-[0.18em] ${
+                        index % 2 ? "text-cyan-50/85" : "text-blue-50/85"
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-xs tracking-[0.32em] text-blue-200/80">
-                {labels.aboutEyebrow.toUpperCase()}
-              </p>
-              <h3 className="text-[2rem] leading-none font-semibold text-white">
-                {labels.aboutTitle}
-              </h3>
-              <p className="mt-2 text-sm text-blue-100/75">{siteInfo.subtitle}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {siteInfo.profileTags.map((tag, index) => (
-                  <span
-                    key={tag}
-                    className={`rounded-full border border-white/14 bg-white/8 px-3 py-1 text-xs tracking-[0.18em] ${
-                      index % 2 ? "text-cyan-50/85" : "text-blue-50/85"
-                    }`}
-                  >
-                    {tag}
-                  </span>
-                ))}
+
+            <div className="mt-5 grid grid-cols-3 gap-2.5">
+              <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
+                <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                  {labels.role.toUpperCase()}
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">{siteInfo.role}</p>
+              </div>
+              <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
+                <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                  {labels.aura.toUpperCase()}
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">{siteInfo.aura}</p>
+              </div>
+              <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
+                <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
+                  {labels.style.toUpperCase()}
+                </p>
+                <p className="mt-2 text-sm font-medium text-white">{siteInfo.style}</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-3 gap-2.5">
-            <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
-                {labels.role.toUpperCase()}
-              </p>
-              <p className="mt-2 text-sm font-medium text-white">{siteInfo.role}</p>
-            </div>
-            <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
-                {labels.aura.toUpperCase()}
-              </p>
-              <p className="mt-2 text-sm font-medium text-white">{siteInfo.aura}</p>
-            </div>
-            <div className="stat-tile rounded-[18px] border border-white/10 bg-black/18 px-3 py-2.5 text-center">
-              <p className="text-[11px] tracking-[0.22em] text-blue-200/65">
-                {labels.style.toUpperCase()}
-              </p>
-              <p className="mt-2 text-sm font-medium text-white">{siteInfo.style}</p>
-            </div>
+          <div className="profile-hero-image relative min-h-[260px] overflow-hidden rounded-[24px] border border-white/12 bg-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+            <Image
+              src={siteInfo.heroImage}
+              alt={`${siteInfo.name} main visual`}
+              fill
+              sizes="(max-width: 1024px) 100vw, 34vw"
+              className="object-cover object-top"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/38 via-transparent to-white/4" />
           </div>
         </div>
 
