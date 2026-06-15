@@ -421,11 +421,12 @@ export async function fetchSiteContent(
   requestedSiteKey = siteKey,
 ): Promise<SiteContent> {
   const defaultFallback = defaultContentByLanguage[language];
+  const useSecondTemplate = requestedSiteKey === "second" || requestedSiteKey === "third";
   const fallback =
-    requestedSiteKey === "second"
+    useSecondTemplate
       ? {
           ...defaultFallback,
-          siteKey: "second",
+          siteKey: requestedSiteKey,
           siteInfo: {
             ...defaultFallback.siteInfo,
             backgroundImage: assetPath("/assets/poster-second.webp"),
@@ -450,7 +451,8 @@ export async function fetchSiteContent(
               language === "zh"
                 ? "这是我oc的稿件！请注意二传盗发去除水印不被允许！"
                 : "These are artworks for my oc! Republish, remove watermark and so on are not allowed!",
-          },        }
+          },
+        }
       : defaultFallback;
 
   if (!sanityEnabled) {

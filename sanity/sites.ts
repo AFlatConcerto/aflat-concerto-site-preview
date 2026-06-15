@@ -9,9 +9,16 @@ export const managedSites = [
   {
     key: "second",
     orderLabel: "二",
-    title: "网站二：新网站",
-    shortTitle: "新网站",
+    title: "网站二：AFlatConcerto个人网站",
+    shortTitle: "AFlatConcerto个人网站",
     documentId: "portfolioSite-second",
+  },
+  {
+    key: "third",
+    orderLabel: "三",
+    title: "网站三：新个人网站",
+    shortTitle: "新个人网站",
+    documentId: "portfolioSite-third",
   },
 ] as const;
 

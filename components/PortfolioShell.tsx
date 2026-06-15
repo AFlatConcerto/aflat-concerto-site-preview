@@ -26,6 +26,7 @@ export function PortfolioShell({ contentByLanguage, siteKey }: PortfolioShellPro
     return requestedLanguage === "zh" ? "zh" : "en";
   });
   const content = liveContentByLanguage[language];
+  const visualSiteKey = content.siteKey === "third" ? "second" : content.siteKey;
   const otherLanguage = language === "en" ? "zh" : "en";
   const themeStyle = {
     "--site-bg": content.theme.background,
@@ -72,7 +73,7 @@ export function PortfolioShell({ contentByLanguage, siteKey }: PortfolioShellPro
   return (
     <div
       id="top"
-      data-site={content.siteKey}
+      data-site={visualSiteKey}
       style={themeStyle}
       className="site-shell relative min-h-screen overflow-x-hidden"
     >
@@ -91,7 +92,7 @@ export function PortfolioShell({ contentByLanguage, siteKey }: PortfolioShellPro
         <PosterStage
           labels={content.labels}
           siteInfo={content.siteInfo}
-          siteKey={content.siteKey}
+          siteKey={visualSiteKey}
           onLanguageSwitch={switchLanguage}
         />
 

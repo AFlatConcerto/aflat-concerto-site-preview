@@ -1,0 +1,21 @@
+﻿import { PortfolioShell } from "@/components/PortfolioShell";
+import type { Language, SiteContent } from "@/data/site";
+import { fetchSiteContent } from "@/sanity/queries";
+
+const languages: Language[] = ["en", "zh"];
+
+export default async function ThirdSitePage() {
+  const entries = await Promise.all(
+    languages.map(
+      async (language) =>
+        [language, await fetchSiteContent(language, "third")] as const,
+    ),
+  );
+
+  return (
+    <PortfolioShell
+      contentByLanguage={Object.fromEntries(entries) as Record<Language, SiteContent>}
+      siteKey="third"
+    />
+  );
+}
