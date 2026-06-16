@@ -55,17 +55,21 @@ const secondHotspots: Hotspot[] = [
 const thirdHotspots: Hotspot[] = [
   {
     id: "language",
+    image: assetPath("/assets/hotspots/btn-second-language.png"),
     label: "Switch language",
     target: "language",
-    className: "third-poster-hotspot left-[69.7%] top-[79.8%] h-[9.2%] w-[12.4%]",
+    className: "left-[66.9%] top-[76.2%] h-[11.8%] w-[12.6%]",
     visible: false,
+    revealOnHover: true,
   },
   {
     id: "home",
+    image: assetPath("/assets/hotspots/btn-second-home.png"),
     label: "Home",
     target: "home",
-    className: "third-poster-hotspot left-[82.7%] top-[79.8%] h-[9.2%] w-[12.2%]",
+    className: "left-[80.2%] top-[76.2%] h-[11.8%] w-[12.5%]",
     visible: false,
+    revealOnHover: true,
   },
 ];
 
@@ -115,8 +119,9 @@ export function PosterStage({
   const navItems = getNavItems(labels);
   const hotspots =
     siteKey === "second" ? secondHotspots : siteKey === "third" ? thirdHotspots : mainHotspots;
-  const hiddenHotspotClass =
-    siteKey === "third" ? "bg-transparent transition" : "bg-cyan-100/0 transition hover:bg-cyan-100/5";
+  const hiddenHotspotClass = "bg-cyan-100/0 transition hover:bg-cyan-100/5";
+  const posterWidth = siteKey === "third" ? 1836 : 1823;
+  const posterHeight = siteKey === "third" ? 1122 : 1118;
 
   function handleHotspotClick(target: Hotspot["target"]) {
     if (target === "language") {
@@ -131,12 +136,15 @@ export function PosterStage({
       <div
         className="poster-frame rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,rgba(6,11,24,0.94),rgba(4,8,20,0.88))] p-3 shadow-[0_30px_90px_rgba(8,12,28,0.55),0_0_48px_rgba(103,149,255,0.16)] md:rounded-[34px] md:p-4"
       >
-        <div className="poster-canvas relative aspect-[1823/1118] overflow-hidden rounded-[22px] border border-white/12 bg-slate-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] md:rounded-[28px]">
+        <div
+          className="poster-canvas relative overflow-hidden rounded-[22px] border border-white/12 bg-slate-950 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] md:rounded-[28px]"
+          style={{ aspectRatio: `${posterWidth} / ${posterHeight}` }}
+        >
           <Image
             src={siteInfo.backgroundImage}
             alt="AFlatConcerto poster layout"
-            width={1823}
-            height={1118}
+            width={posterWidth}
+            height={posterHeight}
             className="h-auto w-full"
             priority
           />
