@@ -189,9 +189,14 @@ export function GallerySection({
                 </div>
                 <dl className="hidden grid-cols-2 gap-2 text-sm md:grid">
                   {[
-                    [labels.character, getCategoryLabel(labels, featuredItem.category)],
+                    [labels.character, getRole(featuredItem, labels)],
                     [labels.color, getColor(featuredItem, labels)],
-                    [labels.type, getRole(featuredItem, labels)],
+                    [
+                      labels.type,
+                      featuredItem.category
+                        ? getCategoryLabel(labels, featuredItem.category)
+                        : labels.artworkFallback,
+                    ],
                     [labels.date, getDate(featuredItem, labels)],
                   ].map(([label, value]) => (
                     <div
